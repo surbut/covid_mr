@@ -1,7 +1,7 @@
-name: "covid_mr"
+name: covid_mr
 output_dir: ../docs
 navbar:
-  title: "covid_mr"
+  title: covid_mr
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/surbut/covid_mr
 output:
   workflowr::wflow_html:
     toc: yes
