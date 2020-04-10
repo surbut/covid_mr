@@ -7,4 +7,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+In this project, we aim to identify genetic signals which underlie variable response to target treatments. Previously, [this preprint](https://www.biorxiv.org/content/10.1101/2020.03.22.002386v3.full.pdf) has identified several gene targets. We aim to see if these genes have eQTL which underlie their variable expression, thus providing a putative mechanism by which individuals would have differing predilection to response.
+
+
