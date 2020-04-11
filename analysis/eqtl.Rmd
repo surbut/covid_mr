@@ -68,7 +68,7 @@ candidates=c("ENSG00000147955.12_9_34562590_C_G_b37","ENSG00000093010.7_22_19950
 
 We then plotted the metaplot across all tissues.
 
-```{r exampleuk3,echo=F}
+```{r example}
 source("~/Downloads/mashr-paper-master/R/normfuncs.R")
 
 z.stat=read.table("~/Dropbox/gtexresult_repo/Data/maxz.txt")
