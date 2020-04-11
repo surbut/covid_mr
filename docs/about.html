@@ -332,7 +332,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-10
+<strong>Last updated:</strong> 2020-04-11
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -363,10 +363,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree02c82ab5a983a5e95eb73bec6b8420c74ccbacb7targetblank02c82aba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/02c82ab5a983a5e95eb73bec6b8420c74ccbacb7" target="_blank">02c82ab</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree68509cbc406f0a1ab0bf81f0a2bd169cddb6ba34targetblank68509cba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/68509cbc406f0a1ab0bf81f0a2bd169cddb6ba34" target="_blank">68509cb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree02c82ab5a983a5e95eb73bec6b8420c74ccbacb7targetblank02c82aba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree68509cbc406f0a1ab0bf81f0a2bd169cddb6ba34targetblank68509cba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -412,6 +412,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/surbut/covid_mr/blob/68509cbc406f0a1ab0bf81f0a2bd169cddb6ba34/analysis/about.Rmd" target="_blank">68509cb</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+wflow_publish(“~/covid_mr/analysis/about.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/covid_mr/e3f496111378f528cfac39b75c861b8319b6698b/docs/about.html" target="_blank">e3f4961</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -471,6 +505,12 @@ Start workflowr project.
 </div>
 </div>
 <p>In this project, we aim to identify genetic signals which underlie variable response to target treatments. Previously, <a href="https://www.biorxiv.org/content/10.1101/2020.03.22.002386v3.full.pdf">this preprint</a> has identified several gene targets. We aim to see if these genes have eQTL which underlie their variable expression, thus providing a putative mechanism by which individuals would have differing predilection to response.</p>
+<p>Here are some items for exploration:</p>
+<ol style="list-style-type: decimal">
+<li><p>Check for cross tissue eQTL (from univariate estimates) of exisiting targets</p></li>
+<li><p>interrogate the UKBB to see if any of these variants overlap as GWAS signals as results from <a href="https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000888">Nicolae et al 2010</a> indicate that trait associated SNPS are enriched in eQTL.</p></li>
+<li><p>Consider what sort of mendelian randomization analyses downstream we might wish to <a href="https://www.nature.com/articles/nrcardio.2017.78">do</a></p></li>
+</ol>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
