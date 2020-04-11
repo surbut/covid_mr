@@ -9,4 +9,10 @@ editor_options:
 
 In this project, we aim to identify genetic signals which underlie variable response to target treatments. Previously, [this preprint](https://www.biorxiv.org/content/10.1101/2020.03.22.002386v3.full.pdf) has identified several gene targets. We aim to see if these genes have eQTL which underlie their variable expression, thus providing a putative mechanism by which individuals would have differing predilection to response.
 
+Here are some items for exploration:
 
+1) Check for cross tissue eQTL (from univariate estimates) of exisiting targets
+
+2) interrogate the UKBB to see if any of these variants overlap as GWAS signals as results from [Nicolae et al 2010](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1000888) indicate that trait associated SNPS are enriched in eQTL.
+
+3) Consider what sort of mendelian randomization analyses downstream we might wish to [do](https://www.nature.com/articles/nrcardio.2017.78)
