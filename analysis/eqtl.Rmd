@@ -1,8 +1,14 @@
 ---
 title: "eqtl"
 author: "Sarah Urbut"
-date: "2020-04-11"
-output: workflowr::wflow_html
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: no
+  html_notebook: default
+  html_document:
+    df_print: paged
+    toc: no
 editor_options:
   chunk_output_type: console
 ---
@@ -10,7 +16,12 @@ editor_options:
 ## Introduction
 
 
-In this file let's look at our hits after interrogating the [GTEx portal](https://www.gtexportal.org/home/gene/BRD2#eQTLBlock)
+In this file let's look at our hits after interrogating the [GTEx portal](https://www.gtexportal.org/home/gene/BRD2#eQTLBlock). The workflow was as followed.
+
+## 1 Identify Targets
+
+We interrogated all the targets listed in this [preprint](https://www.biorxiv.org/content/10.1101/2020.03.22.002386v3.full.pdf) for single tissue eQTLs in lung, using the GTEx portal above. This identified 1150 gene-SNP pairs and 17 unique genes.
+
 
 ```{r}
 library(rmeta)
@@ -20,7 +31,13 @@ length(unique(file$Gencode.Id))
 file$P.Value=as.numeric(as.character(file$P.Value))
 sum(file$P.Value<5e-8)
 
+```
 
+## 2 Identify significants
+
+Of these 1150 associations, there were 249 gene-SNP pairs satisfying an eQTL univariate frequentist p-value threshold of 5e-8. This represented 10 unique genes. 
+
+```{r}
 ##Here are the significant Ps
 goodguys=file[file$P.Value<5e-8,]
 
@@ -30,7 +47,13 @@ length(unique(goodguys$Gene.Symbol))
 ##Here they are:
 
 unique(goodguys$Gene.Symbol)
+```
 
+## 3 Joint Analysis
+
+We then sought to interrogate the joint analysis of this dataset for eQTL which could be shared across tissues for multi tissue involvement. Of those 10 genes, 7 were also interrogated by GTEx 7. This analysis chose the max SNP per gene, so this may not have been the SNP which was significant in lung, and the large caveat there is that we assume one 'true' eQTL per gene.
+
+```{r}
 ## we can convert for the old gtex analysis
 
 u=as.character(unique(goodguys$Gencode.Id))
@@ -41,6 +64,9 @@ candidates=c("ENSG00000147955.12_9_34562590_C_G_b37","ENSG00000093010.7_22_19950
 
 ```
 
+## 4 MetaPlots
+
+We then plotted the metaplot across all tissues.
 
 ```{r exampleuk3,echo=F}
 source("~/Downloads/mashr-paper-master/R/normfuncs.R")
@@ -100,8 +126,10 @@ title(title)
 
 
 Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue < 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)
+
 ```{r,eval=T,echo=F}
 lapply(candidates,function(x){
+
 ex=which(rownames(z.stat)==x)
 newfunc.2(ex)})
 ```
