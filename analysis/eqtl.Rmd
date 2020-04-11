@@ -1,0 +1,108 @@
+---
+title: "eqtl"
+author: "Sarah Urbut"
+date: "2020-04-11"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+
+In this file let's look at our hits after interrogating the [GTEx portal](https://www.gtexportal.org/home/gene/BRD2#eQTLBlock)
+
+```{r}
+library(rmeta)
+file=read.csv("~/covid_mr/cand_eqtl.csv",header=TRUE)
+##There are this many genes
+length(unique(file$Gencode.Id))
+file$P.Value=as.numeric(as.character(file$P.Value))
+sum(file$P.Value<5e-8)
+
+
+##Here are the significant Ps
+goodguys=file[file$P.Value<5e-8,]
+
+##Representing this many genes
+length(unique(goodguys$Gene.Symbol))
+
+##Here they are:
+
+unique(goodguys$Gene.Symbol)
+
+## we can convert for the old gtex analysis
+
+u=as.character(unique(goodguys$Gencode.Id))
+s=sapply(u,function(x){strsplit(x =x,split = "[.]")[[1]][1]})
+
+
+candidates=c("ENSG00000147955.12_9_34562590_C_G_b37","ENSG00000093010.7_22_19950763_T_G_b37","ENSG00000137275.9_6_3086007_C_T_b37","ENSG00000075413.13_14_103880750_C_G_b37","ENSG00000079150.13_2_179290692_A_G_b37","ENSG00000135930.9_2_233426526_C_T_b37","ENSG00000110713.11_11_2886906_A_G_b37")
+
+```
+
+
+```{r exampleuk3,echo=F}
+source("~/Downloads/mashr-paper-master/R/normfuncs.R")
+
+z.stat=read.table("~/Dropbox/gtexresult_repo/Data/maxz.txt")
+b.stat=read.table("~/Dropbox/gtexresult_repo/Data//maxbetahats.txt")
+standard.error=b.stat/z.stat
+
+
+posterior.means=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzeroposterior.means.txt")[,-1]
+
+
+posterior.betas=standard.error*posterior.means
+pm.beta.norm=het.norm(posterior.betas)
+
+lfsr=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzerolfsr.txt")[,-1]
+covmat=readRDS("~/Dropbox/gtexresult_repo/Results_Data/covmatwithzero.rds")
+mar.var=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzeromarginal.var.txt")[,-1]
+colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
+
+
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+uk3labels=read.table("~/Dropbox/gtexresult_repo/Analysis/uk3rowindices.txt")[,1]
+
+newfunc.2=function(j){
+gtex.colors=read.table('~/Dropbox/gtexresult_repo/Data/GTExColors.txt', sep = '\t', comment.char = '')[-missing.tissues,2]
+gtex.colors=gtex.colors[uk3labels]
+
+
+
+
+pm.beta.norm=pm.beta.norm[,uk3labels]##shufflecolumns
+z.shuffle=z.stat[,uk3labels]
+b.shuffle=b.stat[,uk3labels]
+post.var=mar.var[,uk3labels]
+post.bshuffle=posterior.betas[,uk3labels]
+sem.shuffle=standard.error[,uk3labels]
+lfsr=lfsr[,uk3labels]
+title=strsplit(rownames(z.stat)[j], "[.]")[[1]][1]
+
+
+
+
+x=as.numeric(post.bshuffle[j,])
+
+# par(mfrow=c(1,1))
+# metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+# title(title)
+
+par(mfrow=c(1,1))
+sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
+metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=0.4)
+title(title)
+}
+```
+
+
+Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue < 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)
+```{r,eval=T,echo=F}
+lapply(candidates,function(x){
+ex=which(rownames(z.stat)==x)
+newfunc.2(ex)})
+```
+
