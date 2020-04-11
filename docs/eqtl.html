@@ -461,10 +461,10 @@ cand_eqtl.csv
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreec6c6fbb6b069d4b56639b9db05a5ed8bd438b040targetblankc6c6fbba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/c6c6fbb6b069d4b56639b9db05a5ed8bd438b040" target="_blank">c6c6fbb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreeadf691169745b81f3052af3da9f95b85e9931e3atargetblankadf6911a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/adf691169745b81f3052af3da9f95b85e9931e3a" target="_blank">adf6911</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreec6c6fbb6b069d4b56639b9db05a5ed8bd438b040targetblankc6c6fbba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreeadf691169745b81f3052af3da9f95b85e9931e3atargetblankadf6911a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -514,6 +514,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/surbut/covid_mr/blob/adf691169745b81f3052af3da9f95b85e9931e3a/analysis/eqtl.Rmd" target="_blank">adf6911</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+wflow_publish(“analysis/eqtl.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/covid_mr/c12943d97dc49dfd5b46f7e0f1f4bcd090bda4ed/docs/eqtl.html" target="_blank">c12943d</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -652,6 +686,59 @@ candidates=c(&quot;ENSG00000147955.12_9_34562590_C_G_b37&quot;,&quot;ENSG0000009
 <div id="metaplots" class="section level2">
 <h2>4 MetaPlots</h2>
 <p>We then plotted the metaplot across all tissues.</p>
+<pre class="r"><code>source(&quot;~/Downloads/mashr-paper-master/R/normfuncs.R&quot;)
+
+z.stat=read.table(&quot;~/Dropbox/gtexresult_repo/Data/maxz.txt&quot;)
+b.stat=read.table(&quot;~/Dropbox/gtexresult_repo/Data//maxbetahats.txt&quot;)
+standard.error=b.stat/z.stat
+
+
+posterior.means=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzeroposterior.means.txt&quot;)[,-1]
+
+
+posterior.betas=standard.error*posterior.means
+pm.beta.norm=het.norm(posterior.betas)
+
+lfsr=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzerolfsr.txt&quot;)[,-1]
+covmat=readRDS(&quot;~/Dropbox/gtexresult_repo/Results_Data/covmatwithzero.rds&quot;)
+mar.var=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzeromarginal.var.txt&quot;)[,-1]
+colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
+
+
+
+missing.tissues=c(7,8,19,20,24,25,31,34,37)
+uk3labels=read.table(&quot;~/Dropbox/gtexresult_repo/Analysis/uk3rowindices.txt&quot;)[,1]
+
+newfunc.2=function(j){
+gtex.colors=read.table(&#39;~/Dropbox/gtexresult_repo/Data/GTExColors.txt&#39;, sep = &#39;\t&#39;, comment.char = &#39;&#39;)[-missing.tissues,2]
+gtex.colors=gtex.colors[uk3labels]
+
+
+
+
+pm.beta.norm=pm.beta.norm[,uk3labels]##shufflecolumns
+z.shuffle=z.stat[,uk3labels]
+b.shuffle=b.stat[,uk3labels]
+post.var=mar.var[,uk3labels]
+post.bshuffle=posterior.betas[,uk3labels]
+sem.shuffle=standard.error[,uk3labels]
+lfsr=lfsr[,uk3labels]
+title=strsplit(rownames(z.stat)[j], &quot;[.]&quot;)[[1]][1]
+
+
+
+
+x=as.numeric(post.bshuffle[j,])
+
+# par(mfrow=c(1,1))
+# metaplot(as.numeric(b.shuffle[j,]),as.numeric(sem.shuffle[j,]),xlab = &quot;&quot;,ylab=&quot;&quot;,colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1))
+# title(title)
+
+par(mfrow=c(1,1))
+sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
+metaplot(x,sd,xlab = &quot;&quot;,ylab=&quot;&quot;,colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=0.4)
+title(title)
+}</code></pre>
 <p>Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue &lt; 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)</p>
 <pre class="r"><code>lapply(candidates,function(x){
 
