@@ -11,7 +11,6 @@
 
 <meta name="author" content="Sarah Urbut" />
 
-<meta name="date" content="2020-04-11" />
 
 <title>eqtl</title>
 
@@ -21,10 +20,8 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -252,70 +249,10 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-
-
-
 <style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
+.code-folding-btn { margin-bottom: 4px; }
 </style>
+
 
 
 
@@ -325,16 +262,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -383,11 +310,18 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">eqtl</h1>
 <h4 class="author">Sarah Urbut</h4>
-<h4 class="date">2020-04-11</h4>
 
 </div>
 
@@ -527,10 +461,10 @@ cand_eqtl.csv
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree94d231f16e352ae1840c514a84cd1198545b824etargetblank94d231fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/94d231f16e352ae1840c514a84cd1198545b824e" target="_blank">94d231f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreec781e3686911852bb238923e72624227d57c39aetargetblankc781e36a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/c781e3686911852bb238923e72624227d57c39ae" target="_blank">c781e36</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree94d231f16e352ae1840c514a84cd1198545b824etargetblank94d231fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreec781e3686911852bb238923e72624227d57c39aetargetblankc781e36a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -585,6 +519,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/surbut/covid_mr/blob/c781e3686911852bb238923e72624227d57c39ae/analysis/eqtl.Rmd" target="_blank">c781e36</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+wflow_publish(“analysis/eqtl.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/covid_mr/9a04eeffcae283e88bfc5b27894e33633bf88989/docs/eqtl.html" target="_blank">9a04eef</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/surbut/covid_mr/blob/94d231f16e352ae1840c514a84cd1198545b824e/analysis/eqtl.Rmd" target="_blank">94d231f</a>
 </td>
 <td>
@@ -606,7 +574,11 @@ wflow_publish(“analysis/eqtl.Rmd”)
 </div>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>In this file let’s look at our hits after interrogating the <a href="https://www.gtexportal.org/home/gene/BRD2#eQTLBlock">GTEx portal</a></p>
+<p>In this file let’s look at our hits after interrogating the <a href="https://www.gtexportal.org/home/gene/BRD2#eQTLBlock">GTEx portal</a>. The workflow was as followed.</p>
+</div>
+<div id="identify-targets" class="section level2">
+<h2>1 Identify Targets</h2>
+<p>We interrogated all the targets listed in this <a href="https://www.biorxiv.org/content/10.1101/2020.03.22.002386v3.full.pdf">preprint</a> for single tissue eQTLs in lung, using the GTEx portal above. This identified 1150 gene-SNP pairs and 17 unique genes.</p>
 <pre class="r"><code>library(rmeta)
 file=read.csv(&quot;~/covid_mr/cand_eqtl.csv&quot;,header=TRUE)
 ##There are this many genes
@@ -615,6 +587,10 @@ length(unique(file$Gencode.Id))</code></pre>
 <pre class="r"><code>file$P.Value=as.numeric(as.character(file$P.Value))
 sum(file$P.Value&lt;5e-8)</code></pre>
 <pre><code>[1] 249</code></pre>
+</div>
+<div id="identify-significants" class="section level2">
+<h2>2 Identify significants</h2>
+<p>Of these 1150 associations, there were 249 gene-SNP pairs satisfying an eQTL univariate frequentist p-value threshold of 5e-8. This represented 10 unique genes.</p>
 <pre class="r"><code>##Here are the significant Ps
 goodguys=file[file$P.Value&lt;5e-8,]
 
@@ -627,6 +603,10 @@ unique(goodguys$Gene.Symbol)</code></pre>
 <pre><code> [1] SIGMAR1 COMT    NDUFA1  RIPK1   GLA     MARK3   F2RL1   FKBP7   EIF4E2 
 [10] NUP98  
 17 Levels: BRD2 CEP250 COMT CSNK2A2 EIF4E2 F2RL1 FKBP10 FKBP7 GLA ... TBK1</code></pre>
+</div>
+<div id="joint-analysis" class="section level2">
+<h2>3 Joint Analysis</h2>
+<p>We then sought to interrogate the joint analysis of this dataset for eQTL which could be shared across tissues for multi tissue involvement. Of those 10 genes, 7 were also interrogated by GTEx 7. This analysis chose the max SNP per gene, so this may not have been the SNP which was significant in lung, and the large caveat there is that we assume one ‘true’ eQTL per gene.</p>
 <pre class="r"><code>## we can convert for the old gtex analysis
 
 u=as.character(unique(goodguys$Gencode.Id))
@@ -634,7 +614,12 @@ s=sapply(u,function(x){strsplit(x =x,split = &quot;[.]&quot;)[[1]][1]})
 
 
 candidates=c(&quot;ENSG00000147955.12_9_34562590_C_G_b37&quot;,&quot;ENSG00000093010.7_22_19950763_T_G_b37&quot;,&quot;ENSG00000137275.9_6_3086007_C_T_b37&quot;,&quot;ENSG00000075413.13_14_103880750_C_G_b37&quot;,&quot;ENSG00000079150.13_2_179290692_A_G_b37&quot;,&quot;ENSG00000135930.9_2_233426526_C_T_b37&quot;,&quot;ENSG00000110713.11_11_2886906_A_G_b37&quot;)</code></pre>
-<p>Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue &lt; 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7) <img src="figure/eqtl.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-2-7.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="metaplots" class="section level2">
+<h2>4 MetaPlots</h2>
+<p>We then plotted the metaplot across all tissues.</p>
+<p>Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue &lt; 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)</p>
+<p><img src="figure/eqtl.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-6.png" width="672" style="display: block; margin: auto;" /><img src="figure/eqtl.Rmd/unnamed-chunk-4-7.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[[1]]
 NULL
 
@@ -705,8 +690,6 @@ footer is added to webpages before the MathJax javascript. -->
 </script>
 
 
-</div>
-</div>
 
 </div>
 
@@ -738,33 +721,12 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-
 <script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
 });
 </script>
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
