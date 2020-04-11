@@ -127,7 +127,7 @@ title(title)
 
 Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue < 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)
 
-```{r,eval=T,echo=F}
+```{r,eval=T}
 lapply(candidates,function(x){
 
 ex=which(rownames(z.stat)==x)
