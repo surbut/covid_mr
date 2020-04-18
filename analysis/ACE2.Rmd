@@ -3,7 +3,7 @@ title: "ACE2_snp"
 author: "Sarah Urbut"
 output:
   workflowr::wflow_html:
-    code_folding: hide
+    code_folding: show
     toc: no
   html_notebook: default
   html_document:
@@ -16,14 +16,13 @@ editor_options:
 
 ## Organizing the data
 
-First, we read in the data frame and organize it into a data frame of SNP-gene pair x tissues
+First, we read in the data frame and organize it into a data frame of SNP-gene pair x tissues. Here I show how to create the appropriate data frame for Z statistics, and repeat the same logic to create a similar J x R frame for se.
 
 ```{r cars}
 df= read.table("~/Downloads/gtexv8.tsv",sep="\t", header=TRUE)
 df$z=df$slope/df$slope_se
 head(df)
-#df2=data.frame(df$z)
-df2=data.frame(df$slope_se)
+df2=data.frame(df$z)
 head(df2)
 z=t(df2)
 
@@ -43,9 +42,8 @@ sapply(setdiff(tissues,colnames(z)),function(x){which(tissues==x)})
 df=data.frame(t(c(z[,1:20],"Cells_Cultured_fibroblasts"=0,"Cells_EBV-transformed_lymphocytes"=0,z[,21:40],"Spleen"=0,z[,41:45],"Whole_Blood"=0)))
 
 ##check that they are the same
+#cbind(colnames(df),tissues)
 
-cbind(colnames(df),tissues)
-install.packages(("mashr"))
 ```
 
 ## Computing Posteriors
@@ -67,8 +65,12 @@ m2 = mash(data.strong, g=get_fitted_g(m), fixg=TRUE)
 And now, we're ready to plot! Please my code in the *code* directory for an overview of metaplot and the normalization procedure to produce posterior betas from the EZ model which assumes effects scales with their standard errors.
 
 ```{r}
+
+
 source("code/helper.R")
+
 library("rmeta")
+attributes(m2)
 newfunc.2(1)
 
 ```
