@@ -346,10 +346,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-04-11
+<strong>Last updated:</strong> 2020-04-12
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 2
 </p>
 <p>
 <strong>Knit directory:</strong> <code>covid_mr/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -365,12 +365,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -461,10 +461,10 @@ cand_eqtl.csv
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree524d5100b3b11bd3d4ccd66d6ac893275da5c8a1targetblank524d510a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/524d5100b3b11bd3d4ccd66d6ac893275da5c8a1" target="_blank">524d510</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree69117381163cfd54441825b7c834a7897ea80c71targetblank6911738a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/69117381163cfd54441825b7c834a7897ea80c71" target="_blank">6911738</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree524d5100b3b11bd3d4ccd66d6ac893275da5c8a1targetblank524d510a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree69117381163cfd54441825b7c834a7897ea80c71targetblank6911738a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -476,6 +476,9 @@ Ignored files:
 Untracked files:
     Untracked:  cand_eqtl.csv
     Untracked:  gene_snp_forgtex.txt
+
+Unstaged changes:
+    Modified:   analysis/eqtl.Rmd
 
 </code></pre>
 <p>
@@ -514,6 +517,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/covid_mr/69117381163cfd54441825b7c834a7897ea80c71/docs/eqtl.html" target="_blank">6911738</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -705,20 +725,19 @@ candidates=c(&quot;ENSG00000147955.12_9_34562590_C_G_b37&quot;,&quot;ENSG0000009
 <p>We then plotted the metaplot across all tissues.</p>
 <pre class="r"><code>source(&quot;~/Downloads/mashr-paper-master/R/normfuncs.R&quot;)
 
-z.stat=read.table(&quot;~/Dropbox/gtexresult_repo/Data/maxz.txt&quot;)
-b.stat=read.table(&quot;~/Dropbox/gtexresult_repo/Data//maxbetahats.txt&quot;)
+z.stat=read.table(&quot;~/Dropbox/cand_z.txt&quot;)
+b.stat=read.table(&quot;~/Dropbox/cand_b.txt&quot;)
 standard.error=b.stat/z.stat
 
 
-posterior.means=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzeroposterior.means.txt&quot;)[,-1]
-
+posterior.means=read.table(&quot;~/Dropbox/cand_pm.txt&quot;)
 
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
 
-lfsr=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzerolfsr.txt&quot;)[,-1]
+lfsr=read.table(&quot;~/Dropbox/cand_lfsr.txt&quot;)
 covmat=readRDS(&quot;~/Dropbox/gtexresult_repo/Results_Data/covmatwithzero.rds&quot;)
-mar.var=read.table(&quot;~/Dropbox/gtexresult_repo/Results_Data/withzeromarginal.var.txt&quot;)[,-1]
+mar.var=read.table(&quot;~/Dropbox/cand_mv.txt&quot;)[,-1]
 colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
 
 
@@ -753,7 +772,7 @@ x=as.numeric(post.bshuffle[j,])
 
 par(mfrow=c(1,1))
 sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
-metaplot(x,sd,xlab = &quot;&quot;,ylab=&quot;&quot;,colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=0.4)
+metaplot(x,sd,xlab = &quot;&quot;,ylab=&quot;&quot;,colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=10)
 title(title)
 }</code></pre>
 <p>Here we make metaplots of all the genes who have an eQTL in lung from the portal that has a pvalue &lt; 5e-8, and are found in the list of genes from the old GTEx evaluation (n=7)</p>
@@ -1070,16 +1089,16 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] rmeta_3.0       workflowr_1.6.0
+[1] rmeta_3.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.3      rprojroot_1.3-2 digest_0.6.23   later_1.0.0    
- [5] grid_3.5.2      R6_2.4.1        backports_1.1.5 git2r_0.26.1   
- [9] magrittr_1.5    evaluate_0.14   highr_0.8       stringi_1.4.5  
-[13] rlang_0.4.4     fs_1.3.1        promises_1.1.0  whisker_0.4    
-[17] rmarkdown_2.1   tools_3.5.2     stringr_1.4.0   glue_1.3.1     
-[21] httpuv_1.5.2    xfun_0.12       yaml_2.2.1      compiler_3.5.2 
-[25] htmltools_0.4.0 knitr_1.28     </code></pre>
+ [1] workflowr_1.6.0 Rcpp_1.0.3      rprojroot_1.3-2 digest_0.6.23  
+ [5] later_1.0.0     grid_3.5.2      R6_2.4.1        backports_1.1.5
+ [9] git2r_0.26.1    magrittr_1.5    evaluate_0.14   highr_0.8      
+[13] stringi_1.4.5   rlang_0.4.4     fs_1.3.1        promises_1.1.0 
+[17] whisker_0.4     rmarkdown_2.1   tools_3.5.2     stringr_1.4.0  
+[21] glue_1.3.1      httpuv_1.5.2    xfun_0.12       yaml_2.2.1     
+[25] compiler_3.5.2  htmltools_0.4.0 knitr_1.28     </code></pre>
 </div>
 </div>
 

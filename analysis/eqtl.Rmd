@@ -71,20 +71,19 @@ We then plotted the metaplot across all tissues.
 ```{r example}
 source("~/Downloads/mashr-paper-master/R/normfuncs.R")
 
-z.stat=read.table("~/Dropbox/gtexresult_repo/Data/maxz.txt")
-b.stat=read.table("~/Dropbox/gtexresult_repo/Data//maxbetahats.txt")
+z.stat=read.table("~/Dropbox/cand_z.txt")
+b.stat=read.table("~/Dropbox/cand_b.txt")
 standard.error=b.stat/z.stat
 
 
-posterior.means=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzeroposterior.means.txt")[,-1]
-
+posterior.means=read.table("~/Dropbox/cand_pm.txt")
 
 posterior.betas=standard.error*posterior.means
 pm.beta.norm=het.norm(posterior.betas)
 
-lfsr=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzerolfsr.txt")[,-1]
+lfsr=read.table("~/Dropbox/cand_lfsr.txt")
 covmat=readRDS("~/Dropbox/gtexresult_repo/Results_Data/covmatwithzero.rds")
-mar.var=read.table("~/Dropbox/gtexresult_repo/Results_Data/withzeromarginal.var.txt")[,-1]
+mar.var=read.table("~/Dropbox/cand_mv.txt")[,-1]
 colnames(lfsr)=colnames(mar.var)=colnames(posterior.means)=colnames(z.stat)
 
 
@@ -119,7 +118,7 @@ x=as.numeric(post.bshuffle[j,])
 
 par(mfrow=c(1,1))
 sd=as.numeric(sem.shuffle[j,])*sqrt(as.numeric(post.var[j,]))##to transform to posterior sd of beta
-metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=0.4)
+metaplot(x,sd,xlab = "",ylab="",colors=meta.colors(box=as.character(gtex.colors)),xlim=c(-1,1),labels = colnames(z.stat)[uk3labels],cex.lab=10)
 title(title)
 }
 ```

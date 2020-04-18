@@ -1,0 +1,75 @@
+---
+title: "ACE2_snp"
+author: "Sarah Urbut"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: no
+  html_notebook: default
+  html_document:
+    df_print: paged
+    toc: no
+editor_options:
+  chunk_output_type: console
+---
+
+
+## Organizing the data
+
+First, we read in the data frame and organize it into a data frame of SNP-gene pair x tissues
+
+```{r cars}
+df= read.table("~/Downloads/gtexv8.tsv",sep="\t", header=TRUE)
+df$z=df$slope/df$slope_se
+head(df)
+#df2=data.frame(df$z)
+df2=data.frame(df$slope_se)
+head(df2)
+z=t(df2)
+
+colnames(z)=df$tissue
+
+n=sapply(colnames(z),function(x){
+strsplit(x,"ACE2_")[[1]][2]})
+
+colnames(z)=n
+
+m=readRDS("~/Downloads/mfit_GTEX.rds")
+tissues=names(m$fitted_g$Ulist)[31:79]
+setdiff(tissues,colnames(z))
+sapply(setdiff(tissues,colnames(z)),function(x){which(tissues==x)})
+
+
+df=data.frame(t(c(z[,1:20],"Cells_Cultured_fibroblasts"=0,"Cells_EBV-transformed_lymphocytes"=0,z[,21:40],"Spleen"=0,z[,41:45],"Whole_Blood"=0)))
+
+##check that they are the same
+
+cbind(colnames(df),tissues)
+install.packages(("mashr"))
+```
+
+## Computing Posteriors
+
+Here, we run mash by fitting in the appropriate data frame (we need at least a 2 x R matrix, the hierarhical model fit (including covariance matrices, HM weights, and variance of residuals esimates) and then compute posteriors in the object *m2*.
+
+```{r pressure, eval=FALSE}
+df=as.matrix(read.table("../data/df.txt"))
+library("mashr")
+vhat=readRDS("vhatgtex.rds")
+m=readRDS("mfit_GTEX.rds")
+###mash needs at least a 2xR matrix, so rbind
+
+d=rbind(df,df)
+data.strong=mash_set_data(Bhat=d,alpha=1,V=vhat)
+m2 = mash(data.strong, g=get_fitted_g(m), fixg=TRUE)
+```
+
+And now, we're ready to plot! Please my code in the *code* directory for an overview of metaplot and the normalization procedure to produce posterior betas from the EZ model which assumes effects scales with their standard errors.
+
+```{r}
+source("code/helper.R")
+newfunc.2(1)
+```
+
+
+
