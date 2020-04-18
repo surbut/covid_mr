@@ -438,16 +438,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree7ff63ef19d5b5627c60a477f4ca796e2ac244a2btargetblank7ff63efa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/7ff63ef19d5b5627c60a477f4ca796e2ac244a2b" target="_blank">7ff63ef</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreed4081f7121189bf69718ab15dbc41ffedfa47468targetblankd4081f7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/surbut/covid_mr/tree/d4081f7121189bf69718ab15dbc41ffedfa47468" target="_blank">d4081f7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtree7ff63ef19d5b5627c60a477f4ca796e2ac244a2btargetblank7ff63efa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomsurbutcovidmrtreed4081f7121189bf69718ab15dbc41ffedfa47468targetblankd4081f7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/surbut/covid_mr/tree/7ff63ef19d5b5627c60a477f4ca796e2ac244a2b" target="_blank">7ff63ef</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/surbut/covid_mr/tree/d4081f7121189bf69718ab15dbc41ffedfa47468" target="_blank">d4081f7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -513,6 +513,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/surbut/covid_mr/blob/d4081f7121189bf69718ab15dbc41ffedfa47468/analysis/ACE2.Rmd" target="_blank">d4081f7</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-18
+</td>
+<td>
+wflow_publish(“analysis/ACE2.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/surbut/covid_mr/ba4edbe6447e5fb7f300bc2acc24974c2cec9062/docs/ACE2.html" target="_blank">ba4edbe</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/surbut/covid_mr/blob/7ff63ef19d5b5627c60a477f4ca796e2ac244a2b/analysis/ACE2.Rmd" target="_blank">7ff63ef</a>
 </td>
 <td>
@@ -534,7 +568,7 @@ wflow_publish(“analysis/ACE2.Rmd”)
 </div>
 <div id="organizing-the-data" class="section level2">
 <h2>Organizing the data</h2>
-<p>First, we read in the data frame and organize it into a data frame of SNP-gene pair x tissues</p>
+<p>First, we read in the data frame and organize it into a data frame of SNP-gene pair x tissues. Here I show how to create the appropriate data frame for Z statistics, and repeat the same logic to create a similar J x R frame for se.</p>
 <pre class="r"><code>df= read.table(&quot;~/Downloads/gtexv8.tsv&quot;,sep=&quot;\t&quot;, header=TRUE)
 df$z=df$slope/df$slope_se
 head(df)</code></pre>
@@ -559,16 +593,15 @@ head(df)</code></pre>
 4 0.486667  1.81544e-02  0.0899912 0.0378946  2.3747764
 5 0.497537  4.35082e-01 -0.0310049 0.0396307 -0.7823455
 6 0.452212  3.27000e-08  0.2072450 0.0369261  5.6124259</code></pre>
-<pre class="r"><code>#df2=data.frame(df$z)
-df2=data.frame(df$slope_se)
+<pre class="r"><code>df2=data.frame(df$z)
 head(df2)</code></pre>
-<pre><code>  df.slope_se
-1   0.0244211
-2   0.0278215
-3   0.0634564
-4   0.0378946
-5   0.0396307
-6   0.0369261</code></pre>
+<pre><code>        df.z
+1  3.7237717
+2  2.2883058
+3 -0.2291006
+4  2.3747764
+5 -0.7823455
+6  5.6124259</code></pre>
 <pre class="r"><code>z=t(df2)
 
 colnames(z)=df$tissue
@@ -591,110 +624,7 @@ setdiff(tissues,colnames(z))</code></pre>
 <pre class="r"><code>df=data.frame(t(c(z[,1:20],&quot;Cells_Cultured_fibroblasts&quot;=0,&quot;Cells_EBV-transformed_lymphocytes&quot;=0,z[,21:40],&quot;Spleen&quot;=0,z[,41:45],&quot;Whole_Blood&quot;=0)))
 
 ##check that they are the same
-
-cbind(colnames(df),tissues)</code></pre>
-<pre><code>                                             
- [1,] &quot;Adipose_Subcutaneous&quot;                 
- [2,] &quot;Adipose_Visceral_Omentum&quot;             
- [3,] &quot;Adrenal_Gland&quot;                        
- [4,] &quot;Artery_Aorta&quot;                         
- [5,] &quot;Artery_Coronary&quot;                      
- [6,] &quot;Artery_Tibial&quot;                        
- [7,] &quot;Brain_Amygdala&quot;                       
- [8,] &quot;Brain_Anterior_cingulate_cortex_BA24&quot; 
- [9,] &quot;Brain_Caudate_basal_ganglia&quot;          
-[10,] &quot;Brain_Cerebellar_Hemisphere&quot;          
-[11,] &quot;Brain_Cerebellum&quot;                     
-[12,] &quot;Brain_Cortex&quot;                         
-[13,] &quot;Brain_Frontal_Cortex_BA9&quot;             
-[14,] &quot;Brain_Hippocampus&quot;                    
-[15,] &quot;Brain_Hypothalamus&quot;                   
-[16,] &quot;Brain_Nucleus_accumbens_basal_ganglia&quot;
-[17,] &quot;Brain_Putamen_basal_ganglia&quot;          
-[18,] &quot;Brain_Spinal_cord_cervical_c.1&quot;       
-[19,] &quot;Brain_Substantia_nigra&quot;               
-[20,] &quot;Breast_Mammary_Tissue&quot;                
-[21,] &quot;Cells_Cultured_fibroblasts&quot;           
-[22,] &quot;Cells_EBV.transformed_lymphocytes&quot;    
-[23,] &quot;Colon_Sigmoid&quot;                        
-[24,] &quot;Colon_Transverse&quot;                     
-[25,] &quot;Esophagus_Gastroesophageal_Junction&quot;  
-[26,] &quot;Esophagus_Mucosa&quot;                     
-[27,] &quot;Esophagus_Muscularis&quot;                 
-[28,] &quot;Heart_Atrial_Appendage&quot;               
-[29,] &quot;Heart_Left_Ventricle&quot;                 
-[30,] &quot;Kidney_Cortex&quot;                        
-[31,] &quot;Liver&quot;                                
-[32,] &quot;Lung&quot;                                 
-[33,] &quot;Minor_Salivary_Gland&quot;                 
-[34,] &quot;Muscle_Skeletal&quot;                      
-[35,] &quot;Nerve_Tibial&quot;                         
-[36,] &quot;Ovary&quot;                                
-[37,] &quot;Pancreas&quot;                             
-[38,] &quot;Pituitary&quot;                            
-[39,] &quot;Prostate&quot;                             
-[40,] &quot;Skin_Not_Sun_Exposed_Suprapubic&quot;      
-[41,] &quot;Skin_Sun_Exposed_Lower_leg&quot;           
-[42,] &quot;Small_Intestine_Terminal_Ileum&quot;       
-[43,] &quot;Spleen&quot;                               
-[44,] &quot;Stomach&quot;                              
-[45,] &quot;Testis&quot;                               
-[46,] &quot;Thyroid&quot;                              
-[47,] &quot;Uterus&quot;                               
-[48,] &quot;Vagina&quot;                               
-[49,] &quot;Whole_Blood&quot;                          
-      tissues                                
- [1,] &quot;Adipose_Subcutaneous&quot;                 
- [2,] &quot;Adipose_Visceral_Omentum&quot;             
- [3,] &quot;Adrenal_Gland&quot;                        
- [4,] &quot;Artery_Aorta&quot;                         
- [5,] &quot;Artery_Coronary&quot;                      
- [6,] &quot;Artery_Tibial&quot;                        
- [7,] &quot;Brain_Amygdala&quot;                       
- [8,] &quot;Brain_Anterior_cingulate_cortex_BA24&quot; 
- [9,] &quot;Brain_Caudate_basal_ganglia&quot;          
-[10,] &quot;Brain_Cerebellar_Hemisphere&quot;          
-[11,] &quot;Brain_Cerebellum&quot;                     
-[12,] &quot;Brain_Cortex&quot;                         
-[13,] &quot;Brain_Frontal_Cortex_BA9&quot;             
-[14,] &quot;Brain_Hippocampus&quot;                    
-[15,] &quot;Brain_Hypothalamus&quot;                   
-[16,] &quot;Brain_Nucleus_accumbens_basal_ganglia&quot;
-[17,] &quot;Brain_Putamen_basal_ganglia&quot;          
-[18,] &quot;Brain_Spinal_cord_cervical_c-1&quot;       
-[19,] &quot;Brain_Substantia_nigra&quot;               
-[20,] &quot;Breast_Mammary_Tissue&quot;                
-[21,] &quot;Cells_Cultured_fibroblasts&quot;           
-[22,] &quot;Cells_EBV-transformed_lymphocytes&quot;    
-[23,] &quot;Colon_Sigmoid&quot;                        
-[24,] &quot;Colon_Transverse&quot;                     
-[25,] &quot;Esophagus_Gastroesophageal_Junction&quot;  
-[26,] &quot;Esophagus_Mucosa&quot;                     
-[27,] &quot;Esophagus_Muscularis&quot;                 
-[28,] &quot;Heart_Atrial_Appendage&quot;               
-[29,] &quot;Heart_Left_Ventricle&quot;                 
-[30,] &quot;Kidney_Cortex&quot;                        
-[31,] &quot;Liver&quot;                                
-[32,] &quot;Lung&quot;                                 
-[33,] &quot;Minor_Salivary_Gland&quot;                 
-[34,] &quot;Muscle_Skeletal&quot;                      
-[35,] &quot;Nerve_Tibial&quot;                         
-[36,] &quot;Ovary&quot;                                
-[37,] &quot;Pancreas&quot;                             
-[38,] &quot;Pituitary&quot;                            
-[39,] &quot;Prostate&quot;                             
-[40,] &quot;Skin_Not_Sun_Exposed_Suprapubic&quot;      
-[41,] &quot;Skin_Sun_Exposed_Lower_leg&quot;           
-[42,] &quot;Small_Intestine_Terminal_Ileum&quot;       
-[43,] &quot;Spleen&quot;                               
-[44,] &quot;Stomach&quot;                              
-[45,] &quot;Testis&quot;                               
-[46,] &quot;Thyroid&quot;                              
-[47,] &quot;Uterus&quot;                               
-[48,] &quot;Vagina&quot;                               
-[49,] &quot;Whole_Blood&quot;                          </code></pre>
-<pre class="r"><code>install.packages((&quot;mashr&quot;))</code></pre>
-<pre><code>Warning: package &#39;mashr&#39; is not available (for R version 3.6.3)</code></pre>
+#cbind(colnames(df),tissues)</code></pre>
 </div>
 <div id="computing-posteriors" class="section level2">
 <h2>Computing Posteriors</h2>
@@ -710,9 +640,55 @@ data.strong=mash_set_data(Bhat=d,alpha=1,V=vhat)
 m2 = mash(data.strong, g=get_fitted_g(m), fixg=TRUE)</code></pre>
 <p>And now, we’re ready to plot! Please my code in the <em>code</em> directory for an overview of metaplot and the normalization procedure to produce posterior betas from the EZ model which assumes effects scales with their standard errors.</p>
 <pre class="r"><code>source(&quot;code/helper.R&quot;)
+
 library(&quot;rmeta&quot;)
-newfunc.2(1)</code></pre>
+attributes(m2)</code></pre>
+<pre><code>$names
+[1] &quot;result&quot;            &quot;loglik&quot;            &quot;vloglik&quot;          
+[4] &quot;null_loglik&quot;       &quot;alt_loglik&quot;        &quot;fitted_g&quot;         
+[7] &quot;posterior_weights&quot; &quot;alpha&quot;            
+
+$class
+[1] &quot;mash&quot;</code></pre>
+<pre class="r"><code>newfunc.2(1)</code></pre>
 <p><img src="figure/ACE2.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/surbut/covid_mr/blob/ba4edbe6447e5fb7f300bc2acc24974c2cec9062/docs/figure/ACE2.Rmd/unnamed-chunk-1-1.png" target="_blank">ba4edbe</a>
+</td>
+<td>
+Sarah Urbut
+</td>
+<td>
+2020-04-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -796,7 +772,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  window.initializeCodeFolding("show" === "show");
 });
 </script>
 
